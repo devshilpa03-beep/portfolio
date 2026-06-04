@@ -68,7 +68,7 @@ export class PortfolioComponent {
       tags: ['Angular', 'Charts', 'SASS'],
       demo: '#',
       repo: '#',
-      image: 'https://images.unsplash.com/photo-1555949963-aa79dcee981d?q=80&w=1400&auto=format&fit=crop'
+      image: 'https://www.netsuite.com/portal/assets/img/business-articles/business-strategy/social-pricing-process.jpg'
     },
     {
       id: 'migrator-1',
@@ -113,7 +113,7 @@ export class PortfolioComponent {
       tags: ['Angular 20', 'TypeScript', 'SASS'],
       demo: '#',
       repo: '#',
-      image: 'https://images.unsplash.com/photo-1529634892666-5a5b1a1d9b0b?q=80&w=1400&auto=format&fit=crop'
+      image: 'https://progrox.com/images/Event.jpeg'
     },
     {
       id: 'broadcast-1',
