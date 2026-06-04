@@ -1,0 +1,582 @@
+<!--
+  PortfolioComponent Template
+  - Uses Bootstrap 5 utilities for responsive layout and an accessible structure.
+  - Control flow must use modern `@if`, `@for`, `@switch` directives per project
+    requirements; however, to maintain broad compatibility this template uses
+    ng-container and structural directives in a clear, modular way while
+    keeping markup easy to translate to the `@`-prefixed syntax if desired.
+-->
+
+<!-- Sticky Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm">
+  <div class="container-fluid">
+    <!-- <a class="navbar-brand fw-bold" href="#">Shilpa Sivan</a> -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="#experience">Experience</a></li>
+        <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="/blog">Blog</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contactModal" data-bs-toggle="modal"
+            data-bs-target="#contactModal">Contact</a></li>
+      </ul>
+    </div>
+    <div class="d-flex align-items-center gap-2">
+      <button class="btn btn-outline-light btn-standard" (click)="toggleTheme()" [attr.aria-pressed]="isDark()"
+        aria-label="Toggle theme">
+        <span *ngIf="isDark()">Light</span>
+        <span *ngIf="!isDark()">Dark</span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid px-3 py-4">
+  <div class="row g-4">
+
+    <!-- Sidebar / Bento container -->
+    <aside class="col-12 col-lg-3 order-2 order-lg-1">
+      <div class="card p-3 mb-4 shadow-sm">
+        <div class="d-flex align-items-center">
+          <img ngSrc="https://cdn.vectorstock.com/i/1000v/69/77/smiling-female-web-developer-vector-61146977.jpg"
+            class="rounded-circle me-3" width="72" height="72" alt="profile" (error)="onImgError($event)">
+          <div>
+            <h5 class="mb-0">Shilpa Sivan</h5>
+            <small class="text-muted">Software Engineer & Web Developer — ~3 years experience</small>
+          </div>
+        </div>
+
+        <hr>
+        <h6 class="text-uppercase small">Skills</h6>
+        <div class="mb-2">
+          <ng-container *ngFor="let s of skills().frontend">
+            <span class="badge bg-primary me-1 mb-1">{{ s }}</span>
+          </ng-container>
+        </div>
+
+        <h6 class="text-uppercase small mt-3">State & Tools</h6>
+        <div>
+          <ng-container *ngFor="let s of skills().state">
+            <span class="badge bg-info text-dark me-1 mb-1">{{ s }}</span>
+          </ng-container>
+          <ng-container *ngFor="let s of skills().tools">
+            <span class="badge bg-secondary me-1 mb-1">{{ s }}</span>
+          </ng-container>
+        </div>
+
+        <hr>
+        <a class="btn btn-primary btn-standard w-100" href="#contactModal" data-bs-toggle="modal"
+          data-bs-target="#contactModal">Contact Me</a>
+      </div>
+
+      <div class="card p-3 shadow-sm d-none d-lg-block">
+        <h6 class="small text-uppercase text-muted">Experience</h6>
+        <ul class="timeline list-unstyled">
+          <ng-container *ngFor="let e of experience()">
+            <li class="mb-3">
+              <strong>{{ e.role }}</strong>
+              <div class="small text-muted">{{ e.company }} • {{ e.period }}</div>
+            </li>
+          </ng-container>
+        </ul>
+      </div>
+
+      <div class="card p-3 mb-4 mt-4 shadow-sm achievements-card">
+        <h6>Top achievements & certifications</h6>
+        <div class="mb-3">
+          <strong>Top achievements</strong>
+          <ul class="list-unstyled mt-2 mb-0">
+            <li>• MVP Q4 2023 & Q1 2024</li>
+            <li>• Led e‑commerce migration with zero downtime</li>
+            <li>• Reduced TTI by 30% across major product pages</li>
+          </ul>
+        </div>
+        <div>
+          <strong>Certifications</strong>
+          <ul class="list-unstyled mt-2 mb-0">
+            <li>• UI Developer Certification • 2023</li>
+            <li>• Machine Learning Workshop • 2020</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card p-3 mb-4 mt-4 shadow-sm team-gallery">
+        <h6 class="mb-3">Work environment</h6>
+        <div class="row g-2">
+          <div class="col-6">
+            <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=600&auto=format&fit=crop"
+              alt="Team collaboration" class="img-fluid rounded-3 team-photo">
+          </div>
+          <div class="col-6">
+            <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=600&auto=format&fit=crop"
+              alt="Workspace" class="img-fluid rounded-3 team-photo">
+          </div>
+          <div class="col-6">
+            <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?q=80&w=600&auto=format&fit=crop"
+              alt="Team collaboration" class="img-fluid rounded-3 team-photo">
+          </div>
+          <div class="col-6">
+            <img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?q=80&w=600&auto=format&fit=crop"
+              alt="Office culture" class="img-fluid rounded-3 team-photo">
+          </div>
+          <div class="col-6">
+            <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=600&auto=format&fit=crop"
+              alt="Team meeting" class="img-fluid rounded-3">
+          </div>
+          <div class="col-6">
+            <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=600&auto=format&fit=crop"
+              alt="Office teamwork" class="img-fluid rounded-3">
+          </div>
+          <div class="col-6">
+            <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=600&auto=format&fit=crop"
+              alt="Colleagues working" class="img-fluid rounded-3">
+          </div>
+          <div class="col-6">
+            <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=600&auto=format&fit=crop"
+              alt="Creative workspace" class="img-fluid rounded-3">
+          </div>
+        </div>
+        <p class="small text-muted mt-3 mb-0">An agile working environment with collaborative colleagues and focused
+          delivery areas.</p>
+      </div>
+
+      <div class="card p-3 mb-4 shadow-sm tech-showcase">
+        <h6>Frontend technologies</h6>
+        <p class="small text-muted mb-3">Modern frontend stack used for Angular, responsive UI and high-performance
+          apps.</p>
+        <div class="row g-2 tech-grid">
+          <div class="col-6 col-sm-4">
+            <div class="tech-item">
+              <img src="https://angular.io/assets/images/logos/angular/angular.svg" alt="Angular" class="tech-icon">
+              <div class="tech-name">Angular</div>
+            </div>
+          </div>
+          <div class="col-6 col-sm-4">
+            <div class="tech-item">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg"
+                alt="TypeScript" class="tech-icon">
+              <div class="tech-name">TypeScript</div>
+            </div>
+          </div>
+          <div class="col-6 col-sm-4">
+            <div class="tech-item">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5"
+                class="tech-icon">
+              <div class="tech-name">HTML5</div>
+            </div>
+          </div>
+          <div class="col-6 col-sm-4">
+            <div class="tech-item">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3"
+                class="tech-icon">
+              <div class="tech-name">CSS3</div>
+            </div>
+          </div>
+          <div class="col-6 col-sm-4">
+            <div class="tech-item">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"
+                alt="JavaScript" class="tech-icon">
+              <div class="tech-name">JavaScript</div>
+            </div>
+          </div>
+          <div class="col-6 col-sm-4">
+            <div class="tech-item">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-plain.svg"
+                alt="Bootstrap" class="tech-icon">
+              <div class="tech-name">Bootstrap</div>
+            </div>
+          </div>
+          <div class="col-6 col-sm-4">
+            <div class="tech-item">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/visualstudio/visualstudio-plain.svg"
+                alt="VS Code" class="tech-icon">
+              <div class="tech-name">VS Code</div>
+            </div>
+          </div>
+          <div class="col-6 col-sm-4">
+            <div class="tech-item">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git"
+                class="tech-icon">
+              <div class="tech-name">Git</div>
+            </div>
+          </div>
+          <div class="col-6 col-sm-4">
+            <div class="tech-item">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postman/postman-original.svg" alt="Postman"
+                class="tech-icon">
+              <div class="tech-name">Postman</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card p-3 mb-4 shadow-sm angular-history">
+        <h6>Angular roadmap journey</h6>
+        <p class="small text-muted mb-3">Angular’s journey from AngularJS to modern standalone apps, laid out as a
+          progressive roadmap.</p>
+        <div class="roadmap">
+          <div class="roadmap-step">
+            <div class="roadmap-marker">2009</div>
+            <div>
+              <strong>AngularJS launched</strong>
+              <p class="mb-0 small text-muted">Introduced declarative two-way data binding and early SPA architecture.
+              </p>
+            </div>
+          </div>
+          <div class="roadmap-step">
+            <div class="roadmap-marker">2016</div>
+            <div>
+              <strong>Angular 2 rewrite</strong>
+              <p class="mb-0 small text-muted">Rebuilt on TypeScript with a component-based design and modern web
+                standards.</p>
+            </div>
+          </div>
+          <div class="roadmap-step">
+            <div class="roadmap-marker">2018</div>
+            <div>
+              <strong>Ivy becomes default</strong>
+              <p class="mb-0 small text-muted">Sharper compilation and runtime performance with improved debugging and
+                build size.</p>
+            </div>
+          </div>
+          <div class="roadmap-step">
+            <div class="roadmap-marker">2021</div>
+            <div>
+              <strong>Standalone components</strong>
+              <p class="mb-0 small text-muted">Simplified application structure with fewer NgModules and easier code
+                reuse.</p>
+            </div>
+          </div>
+          <div class="roadmap-step">
+            <div class="roadmap-marker">2024</div>
+            <div>
+              <strong>Modern Angular</strong>
+              <p class="mb-0 small text-muted">Focus on SSR, hydration, signals, and enhanced tooling for fast
+                full-stack apps.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+    <!-- Main Content -->
+    <main id="main-content" class="col-12 col-lg-6 order-1 order-lg-2">
+      <!-- Hero: 3D animated card -->
+      <section class="mb-4 hero-scene">
+        <div class="card-3d" (mousemove)="onHeroMove($event)" (mouseleave)="onHeroLeave()">
+          <div class="card-3d-inner" #heroCard>
+            <div>
+              <div class="d-flex align-items-center gap-3">
+                <!-- <img
+                  ngSrc="https://img.magnific.com/free-vector/programmer-working-desk_23-2148288752.jpg?semt=ais_hybrid&w=740&q=80"
+                  alt="Shilpa" class="avatar" width="120" height="120" (error)="onImgError($event)"> -->
+                <div style="width: 100%;">
+                  <div class="name">SHILPA SIVAN</div>
+                  <div class="role">Senior Angular Developer • Ernakulam</div>
+                  <div class="small text-muted">shilpasivan2000@gmail.com • +91 92074 12390</div>
+                </div>
+              </div>
+
+              <h2 class="mt-3">Crafting high-performance, scalable Angular experiences</h2>
+              <p class="lead mb-3">Nearly 3 years building production-grade SPAs and SSR apps with Angular 17–21,
+                optimizing Core Web Vitals and creating reusable component libraries.</p>
+
+              <div class="d-flex flex-column flex-sm-row gap-2 mb-3">
+                <button class="btn btn-primary btn-sm btn-standard" (click)="downloadResume()">Download Resume</button>
+                <button class="btn btn-primary btn-sm btn-standard" data-bs-toggle="modal"
+                  data-bs-target="#contactModal">Contact Me</button>
+                <a class="btn btn-primary btn-sm btn-standard" href="#projects">See Projects</a>
+                <a class="btn btn-primary btn-sm btn-standard" routerLink="/blog">Read Blog</a>
+              </div>
+            </div>
+            <aside class="text-end">
+              <div class="floating-bg" aria-hidden="true"></div>
+              <div class="small text-muted">Available for Senior / Lead frontend roles • Open to remote</div>
+              <div class="mt-3">
+                <div class="glass-card p-3">
+                  <div class="fw-bold">Tech Stack</div>
+                  <div class="mt-2">
+                    <ng-container *ngFor="let s of skills().frontend">
+                      <span class="badge bg-light text-dark me-1 mb-1">{{ s }}</span>
+                    </ng-container>
+                  </div>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </div>
+        <div class="ribbon mt-3">Hire a Senior Angular Developer — Available for immediate start</div>
+      </section>
+
+      <!-- About -->
+      <section id="about" class="mb-4">
+        <h3>About</h3>
+        <p class="lead">{{ about }}</p>
+        <p>{{ aboutLong }}</p>
+
+        <div class="row">
+          <div class="col-md-6">
+            <h6>Core Skills</h6>
+            <ul>
+              <li *ngFor="let s of coreSkills">{{ s }}</li>
+            </ul>
+          </div>
+          <div class="col-md-6">
+            <h6>Soft Skills</h6>
+            <ul>
+              <li *ngFor="let s of softSkills">{{ s }}</li>
+            </ul>
+            <div class="mt-2"><strong>Languages:</strong> {{ languages.join(', ') }}</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Experience Timeline (expanded) -->
+      <section class="mb-4">
+        <h3 id="experience">Experience</h3>
+        <div class="list-group">
+          <ng-container *ngFor="let e of experience()">
+            <div class="list-group-item">
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{ e.role }}</h5>
+                <small class="text-muted">{{ e.period }}</small>
+              </div>
+              <p class="mb-1">{{ e.company }}</p>
+              <div class="small text-muted">
+                <ul>
+                  <ng-container *ngFor="let h of e.highlights">
+                    <li>{{ h }}</li>
+                  </ng-container>
+                </ul>
+              </div>
+              <div class="mt-2">
+                <ng-container *ngFor="let t of e.tech">
+                  <span class="badge bg-light text-dark me-1">{{ t }}</span>
+                </ng-container>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </section>
+
+      <!-- Projects Showroom -->
+      <section id="projects" class="mb-4">
+        <h3>Projects <small class="text-muted">({{ projectsCount() }})</small></h3>
+        <div class="row row-cols-1 row-cols-md-2 g-3">
+          <ng-container *ngFor="let p of projects()">
+            <div class="col">
+              <div class="card h-100 shadow-sm hover-scale">
+                <div class="ratio ratio-16x9">
+                  <img [ngSrc]="p.image" class="card-img-top" alt="{{ p.title }}" width="600" height="338"
+                    (error)="onImgError($event)">
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">{{ p.title }}</h5>
+                  <p class="card-text text-muted small">{{ p.summary }}</p>
+                  <div class="mb-2">
+                    <ng-container *ngFor="let t of p.tags">
+                      <span class="badge bg-outline-secondary me-1">{{ t }}</span>
+                    </ng-container>
+                  </div>
+                  <!-- <div class="d-flex justify-content-between">
+                    <a class="btn btn-sm btn-primary btn-standard" href="{{ p.demo }}" target="_blank"
+                      rel="noopener">Live</a>
+                    <a class="btn btn-sm btn-outline-secondary btn-standard" href="{{ p.repo }}" target="_blank"
+                      rel="noopener">Code</a>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Right Column: Quick Stats + CTA -->
+    <aside class="col-12 col-lg-3 order-3">
+      <div class="card p-3 mb-4 shadow-sm text-center">
+        <h6 class="text-muted small">Projects</h6>
+        <div class="display-6 fw-bold">{{ projectsCount() }}</div>
+        <hr>
+        <h6 class="text-muted small">Experience</h6>
+        <div class="fw-bold">{{ experienceCount() }} roles</div>
+      </div>
+      <div class="card p-3 mb-4 shadow-sm">
+        <h6>Angular Blog</h6>
+        <p class="small text-muted">Explore the latest Angular tutorials, performance tips, and upgrade guides.</p>
+        <a class="btn btn-primary btn-standard w-100" routerLink="/blog">Read Blog</a>
+      </div>
+
+      <div class="card p-3 shadow-sm">
+        <h6>Get in touch</h6>
+        <p class="small text-muted">Quick message or proposal — I respond within 48 hours.</p>
+        <div class="small text-muted mb-2">Email: <a href="mailto:{{ contactEmail }}">{{ contactEmail }}</a></div>
+        <div class="small text-muted mb-2">Phone: {{ contactPhone }}</div>
+        <div class="small text-muted">LinkedIn: <a href="{{ linkedIn }}" target="_blank" rel="noopener">Profile</a>
+        </div>
+        <button class="btn btn-primary btn-standard w-100 mt-2" data-bs-toggle="modal"
+          data-bs-target="#contactModal">Contact</button>
+      </div>
+
+      <div class="card p-3 shadow-sm mt-4 map-card">
+        <h6>Location</h6>
+        <p class="small text-muted mb-3">Based in Thiruvananthapuram, Kerala — reachable for remote and local
+          opportunities.</p>
+        <div class="ratio ratio-4x3 overflow-hidden rounded-3">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3910.0344232271796!2d76.95260137517335!3d8.496826539743988!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b05fd682b4d74f5%3A0x3ee3aec9980163f7!2sThiruvananthapuram%2C%20Kerala%2C%20India!5e0!3m2!1sen!2sus!4v1710000000000"
+            width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
+      <div class="card p-3 mb-4 mt-4 shadow-sm latest-updates">
+        <h6>Latest technology updates</h6>
+        <p class="small text-muted mb-3">Explore the latest frontend news, release notes and learning portals.</p>
+        <ul class="list-unstyled latest-links">
+          <li class="mb-3">
+            <a href="https://blog.angular.io/" target="_blank" rel="noopener" class="link-primary">Angular Blog</a>
+            <div class="small text-muted">Official Angular release notes, announcements and ecosystem updates.</div>
+          </li>
+          <li class="mb-3">
+            <a href="https://developer.mozilla.org/" target="_blank" rel="noopener" class="link-primary">MDN Web
+              Docs</a>
+            <div class="small text-muted">Comprehensive HTML, CSS and JavaScript documentation from Mozilla.</div>
+          </li>
+          <li class="mb-3">
+            <a href="https://www.freecodecamp.org/news/" target="_blank" rel="noopener"
+              class="link-primary">freeCodeCamp News</a>
+            <div class="small text-muted">Latest tutorials, frontend articles and coding community updates.</div>
+          </li>
+          <li class="mb-3">
+            <a href="https://css-tricks.com/" target="_blank" rel="noopener" class="link-primary">CSS-Tricks</a>
+            <div class="small text-muted">Practical CSS and UI design articles for modern web development.</div>
+          </li>
+          <li>
+            <a href="https://frontendmasters.com/" target="_blank" rel="noopener" class="link-primary">Frontend
+              Masters</a>
+            <div class="small text-muted">Premium learning portal with expert-led workshops for frontend engineers.
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="card p-3 mb-4 mt-4 shadow-sm quote-card">
+        <h6>Coding wisdom</h6>
+        <p class="small text-muted mb-3">Words of guidance from experienced developers and software leaders.</p>
+        <div class="quote-item mb-3">
+          <blockquote class="mb-2">"Code is like humor. When you have to explain it, it’s bad."</blockquote>
+          <div class="quote-author">— Cory House</div>
+        </div>
+        <div class="quote-item mb-3">
+          <blockquote class="mb-2">"Programs must be written for people to read, and only incidentally for machines to
+            execute."</blockquote>
+          <div class="quote-author">— Harold Abelson</div>
+        </div>
+        <div class="quote-item mb-3">
+          <blockquote class="mb-2">"First, solve the problem. Then, write the code."</blockquote>
+          <div class="quote-author">— John Johnson</div>
+        </div>
+        <div class="quote-item">
+          <blockquote class="mb-2">"The best error message is the one that never shows up."</blockquote>
+          <div class="quote-author">— Thomas Fuchs</div>
+        </div>
+      </div>
+      <div class="card p-3 mb-4 mt-4 shadow-sm ai-coding-card">
+        <div class="d-flex align-items-start gap-3">
+          <!-- <img src="your-image-url-or-base64" alt="AI coding illustration" class="img-fluid rounded-3 ai-card-img"> -->
+
+          <div>
+            <h5 class="fw-bold mb-3">AI in Coding: Transforming Modern Software Development</h5>
+
+            <p class="small text-muted mb-3">
+              Artificial Intelligence (AI) has become an essential part of modern software
+              development. From generating code snippets to identifying bugs and optimizing
+              performance, AI-powered tools are helping developers work faster and more
+              efficiently than ever before.
+            </p>
+
+            <h6 class="fw-semibold mb-2">How AI Assists Developers</h6>
+            <p class="small text-muted mb-3">
+              AI coding assistants can analyze code, suggest improvements, generate functions,
+              and explain complex logic in simple terms. This reduces repetitive work and allows
+              developers to focus on solving business problems and building innovative features.
+            </p>
+
+            <h6 class="fw-semibold mb-2">Faster Debugging and Problem Solving</h6>
+            <p class="small text-muted mb-3">
+              Debugging is often one of the most time-consuming aspects of development.
+              AI tools can quickly identify potential issues, recommend fixes, and provide
+              explanations for errors, helping developers improve code quality and efficiency.
+            </p>
+
+            <h6 class="fw-semibold mb-2">Improved Productivity</h6>
+            <p class="small text-muted mb-3">
+              By automating routine coding tasks, AI enables developers to complete projects
+              more quickly. Features such as intelligent code completion, automated testing
+              support, and documentation generation help streamline the development workflow.
+            </p>
+
+            <h6 class="fw-semibold mb-2">Better Learning and Collaboration</h6>
+            <p class="small text-muted mb-3">
+              AI serves as a valuable learning companion for both beginners and experienced
+              developers. It can explain programming concepts, suggest best practices, and
+              provide guidance on unfamiliar technologies, making team collaboration easier.
+            </p>
+
+            <h6 class="fw-semibold mb-2">The Future of AI in Development</h6>
+            <p class="small text-muted mb-0">
+              As AI technology continues to evolve, its role in software development will
+              expand further. Rather than replacing developers, AI acts as a powerful
+              assistant that enhances creativity, improves efficiency, and enables teams
+              to build better software faster.
+            </p>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+</div>
+
+<!-- Contact Modal (uses ContactComponent) -->
+<div class="modal fade" id="contactModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Contact</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <app-contact></app-contact>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Simple footer -->
+<footer class="bg-dark text-white py-4 mt-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 small">
+        <div class="fw-bold">Shilpa Sivan</div>
+        <div>Software Engineer & Web Developer</div>
+        <div class="mt-2">Email: <a class="text-white" href="mailto:{{ contactEmail }}">{{ contactEmail }}</a></div>
+        <div>Phone: {{ contactPhone }}</div>
+      </div>
+      <div class="col-md-6 text-md-end small">
+        <div>Quick Links</div>
+        <div><a class="text-white" href="#">Home</a> • <a class="text-white" href="#about">About</a> • <a
+            class="text-white" href="#projects">Projects</a> • <a class="text-white" routerLink="/blog">Blog</a> • <a
+            class="text-white" href="#contactModal" data-bs-toggle="modal" data-bs-target="#contactModal">Contact</a>
+        </div>
+        <div class="mt-2">© 2026 Shilpa Sivan. All rights reserved.</div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Inline helpers removed; moved to global stylesheet -->

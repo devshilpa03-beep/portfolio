@@ -1,0 +1,42 @@
+<!-- Contact form with robust client-side validation and success state -->
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+  <div *ngIf="success()" class="alert alert-success">Thanks — your message was sent.</div>
+  <div *ngIf="error()" class="alert alert-danger">{{ error() }}</div>
+
+  <div class="mb-3">
+    <label class="form-label">Name</label>
+    <input type="text" formControlName="name" class="form-control" [class.is-invalid]="f.name.touched && f.name.invalid">
+    <div class="invalid-feedback" *ngIf="f.name.touched && f.name.errors">
+      <div *ngIf="f.name.errors['required']">Name is required.</div>
+      <div *ngIf="f.name.errors['minlength']">Enter at least 2 characters.</div>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Email</label>
+    <input type="email" formControlName="email" class="form-control" [class.is-invalid]="f.email.touched && f.email.invalid">
+    <div class="invalid-feedback" *ngIf="f.email.touched && f.email.errors">
+      <div *ngIf="f.email.errors['required']">Email is required.</div>
+      <div *ngIf="f.email.errors['email']">Enter a valid email address.</div>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Message</label>
+    <textarea rows="5" formControlName="message" class="form-control" [class.is-invalid]="f.message.touched && f.message.invalid"></textarea>
+    <div class="invalid-feedback" *ngIf="f.message.touched && f.message.errors">
+      <div *ngIf="f.message.errors['required']">Message is required.</div>
+      <div *ngIf="f.message.errors['minlength']">Write at least 10 characters.</div>
+    </div>
+  </div>
+
+  <div class="d-grid">
+      <div class="d-flex gap-2">
+        <button class="btn btn-primary flex-grow-1 btn-standard" type="submit" [disabled]="submitting()">
+          <span *ngIf="!submitting()">Send Message</span>
+          <span *ngIf="submitting()">Sending…</span>
+        </button>
+        <button type="button" class="btn btn-outline-secondary btn-standard" (click)="form.reset()">Clear</button>
+      </div>
+  </div>
+</form>

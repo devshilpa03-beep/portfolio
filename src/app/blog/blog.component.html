@@ -1,0 +1,37 @@
+<section class="container py-5">
+  <div class="mb-4 text-center">
+    <p class="text-uppercase small text-muted">Angular Blog</p>
+    <h1 class="display-6">Latest Angular stories, tutorials and best practices</h1>
+    <p class="lead text-muted">A focused accordion list — click a title to expand the article details.</p>
+    <a class="btn btn-primary btn-standard" routerLink="/">Back to portfolio</a>
+  </div>
+
+  <div class="blog-list">
+    <div class="accordion" id="blogAccordionHtml">
+      <ng-container *ngFor="let post of blogPosts()">
+        <div class="accordion-item">
+          <h2 class="accordion-header" [id]="'heading-' + post.id">
+            <button class="accordion-button collapsed" type="button" (click)="toggleDetails(post.id)" aria-expanded="false">
+              <div class="w-100">
+                <div class="small text-muted">{{ post.date }}</div>
+                <div class="fw-bold">{{ post.title }}</div>
+                <div class="small text-muted">{{ post.excerpt }}</div>
+              </div>
+            </button>
+          </h2>
+          <div [id]="'collapse-' + post.id" class="accordion-collapse collapse" [class.show]="expandedPost() === post.id" [attr.aria-labelledby]="'heading-' + post.id" [attr.data-bs-parent]="'#blogAccordionHtml'">
+            <div class="accordion-body">
+              <div class="mb-3">
+                <ng-container *ngFor="let tag of post.tags">
+                  <span class="badge bg-outline-secondary me-1">{{ tag }}</span>
+                </ng-container>
+              </div>
+              <p>{{ blogDetails[post.id] }}</p>
+              <a class="btn btn-sm btn-primary btn-standard" [href]="post.link" target="_blank" rel="noopener">Read Full Article</a>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</section>
